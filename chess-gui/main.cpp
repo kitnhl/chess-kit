@@ -54,6 +54,11 @@ int main()
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     dragging = false;
+                    // Snap the piece to the nearest square
+                    sf::Vector2f newPos = pieces[active].getPosition();
+                    newPos.x = SQUARESIZE * round(newPos.x / SQUARESIZE);
+                    newPos.y = SQUARESIZE * round(newPos.y / SQUARESIZE);
+                    pieces[active].setPosition(newPos);
                 }
             }
         }
