@@ -1,33 +1,10 @@
-#include <SFML/Graphics.hpp>
-
-const int BOARDSIZE = 480;
-const int NUMPIECES = 32;
-const int SQUARESIZE = BOARDSIZE / 8;
-
-// const int PIECESIZE = SQUARESIZE - 10;
-
-sf::Sprite pieces[32];
-
-int board[8][8] = {
-    // Black pieces
-    {-3, -4, -5, -1, -2, -5, -4, -3}, 
-    {-6, -6, -6, -6, -6, -6, -6, -6}, 
-    // Empty squares
-    { 0,  0,  0,  0,  0,  0,  0,  0}, 
-    { 0,  0,  0,  0,  0,  0,  0,  0}, 
-    { 0,  0,  0,  0,  0,  0,  0,  0}, 
-    { 0,  0,  0,  0,  0,  0,  0,  0}, 
-    // White pieces
-    { 6,  6,  6,  6,  6,  6,  6,  6},
-    { 3,  4,  5,  1,  2,  5,  4,  3}
-};
-
-void loadPosition();
+#include "chess_gui.h"
+#include "constants.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(480, 480), "Chess Kit");
-    
+
     sf::Texture t1, t2;
     t1.loadFromFile("images/board.png");
     t2.loadFromFile("images/pieces.png");
@@ -98,26 +75,4 @@ int main()
     }
 
     return 0;
-}
-
-void loadPosition()
-{
-    int k = 0;
-    for (int i = 0; i < 8; i++)
-    {
-        for (int j = 0; j < 8; j++)
-        {
-            if (board[i][j] == 0)
-            {
-                continue;
-            }
-
-            int n = board[i][j];
-            int x = abs(n) - 1;     // 0 = queen, 1 = king, 2 = rook, 3 = knight, 4 = bishop, 5 = pawn
-            int y = n > 0 ? 1 : 0;  // 0 = black, 1 = white
-            pieces[k].setTextureRect(sf::IntRect(SQUARESIZE * x, SQUARESIZE * y, SQUARESIZE, SQUARESIZE));
-            pieces[k].setPosition(SQUARESIZE * j, SQUARESIZE * i);
-            k++;
-        }
-    }
 }
