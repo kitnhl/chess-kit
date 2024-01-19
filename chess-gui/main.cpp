@@ -1,5 +1,8 @@
 #include "chess_gui.h"
 #include "constants.h"
+#include <iostream>
+
+using namespace std;
 
 int main()
 {
@@ -17,8 +20,8 @@ int main()
     loadPosition();
 
     bool dragging = false;
-    sf::Vector2f oldPos;
     int active = 0;
+    string notation;
 
     while (window.isOpen())
     {
@@ -35,14 +38,15 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                    sf::Vector2f mouseCoord = window.mapPixelToCoords(sf::Mouse::getPosition(window));
                     for (int i = 0; i < NUMPIECES; i++)
                     {
-                        if (pieces[i].getGlobalBounds().contains(mousePos))
+                        if (pieces[i].getGlobalBounds().contains(mouseCoord))
                         {
                             dragging = true;
                             active = i;
-                            oldPos = mousePos - pieces[i].getPosition();
+                            oldCoord = pieces[i].getPosition();
+                            coordOffset = mouseCoord - oldCoord;
                         }
                     }
                 }
@@ -55,10 +59,18 @@ int main()
                 {
                     dragging = false;
                     // Snap the piece to the nearest square
-                    sf::Vector2f newPos = pieces[active].getPosition();
-                    newPos.x = SQUARESIZE * round(newPos.x / SQUARESIZE);
-                    newPos.y = SQUARESIZE * round(newPos.y / SQUARESIZE);
-                    pieces[active].setPosition(newPos);
+                    sf::Vector2f newCoord = pieces[active].getPosition();
+                    newCoord.x = SQUARESIZE * round(newCoord.x / SQUARESIZE);
+                    newCoord.y = SQUARESIZE * round(newCoord.y / SQUARESIZE);
+                    
+                    string previousMove = notation;
+                    notation = toSquareName(oldCoord) + toSquareName(newCoord);
+                    if (notation != previousMove && oldCoord != newCoord)
+                    {
+                        cout << notation << endl;
+                    }
+
+                    movePiece(active, notation);
                 }
             }
         }
@@ -66,7 +78,7 @@ int main()
         // Update the position of the piece being dragged   
         if (dragging)
         {
-            pieces[active].setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)) - oldPos);
+            pieces[active].setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)) - coordOffset);
         }
 
         // Draw the board and pieces
