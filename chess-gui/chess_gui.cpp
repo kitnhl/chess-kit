@@ -6,8 +6,9 @@ using namespace std;
 sf::Sprite pieces[32];
 sf::Vector2f coordOffset, oldCoord, newCoord;
 
-void loadPosition()
+void loadBoard(string scoreSheet)
 {
+    // Load pieces
     int k = 0;
     for (int i = 0; i < 8; i++)
     {
@@ -27,6 +28,12 @@ void loadPosition()
             k++;
         }
     }
+
+    // Load game state
+    for (size_t i = 0; i < scoreSheet.length(); i += 5)
+    {
+        movePiece(-1, scoreSheet.substr(i, 4));
+    }
 }
 
 void movePiece(int index, string notation)
@@ -39,10 +46,24 @@ void movePiece(int index, string notation)
         if (pieces[j].getPosition() == newCoord)
         {
             pieces[j].setPosition(-100, -100);
+            break;
         }
     }
 
-    pieces[index].setPosition(newCoord);
+    if (index >= 0)
+    {
+        pieces[index].setPosition(newCoord);
+        return;
+    }
+
+    for (int i = 0; i < NUMPIECES; i++)
+    {
+        if (pieces[i].getPosition() == oldCoord)
+        {
+            pieces[i].setPosition(newCoord);
+            return;
+        }
+    }
 }
 
 sf::Vector2f toCoord(string squareName)

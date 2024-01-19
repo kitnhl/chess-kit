@@ -5,7 +5,7 @@
 int findPieceAtPosition(int x, int y);
 
 TEST(LoadInitPosTest, WhiteQueenOnD1) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 3;  // D
     int y = SQUARESIZE * 7;  // 1
@@ -23,7 +23,7 @@ TEST(LoadInitPosTest, WhiteQueenOnD1) {
 }
 
 TEST(LoadInitPosTest, BlackQueenOnD8) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 3;  // D
     int y = SQUARESIZE * 0;  // 8
@@ -41,7 +41,7 @@ TEST(LoadInitPosTest, BlackQueenOnD8) {
 }
 
 TEST(LoadInitPosTest, WhitePawnOnE2) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 4;  // E
     int y = SQUARESIZE * 6;  // 2
@@ -60,7 +60,7 @@ TEST(LoadInitPosTest, WhitePawnOnE2) {
 
 
 TEST(LoadInitPosTest, BlackPawnOnC7) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 2;  // C
     int y = SQUARESIZE * 1;  // 7
@@ -78,7 +78,7 @@ TEST(LoadInitPosTest, BlackPawnOnC7) {
 }
 
 TEST(LoadInitPosTest, EmptySquareOnE3) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 4;  // E
     int y = SQUARESIZE * 5;  // 3
@@ -89,7 +89,7 @@ TEST(LoadInitPosTest, EmptySquareOnE3) {
 }
 
 TEST(LoadInitPosTest, EmptySquareOnB6) {
-    loadPosition();
+    loadBoard("");
 
     int x = SQUARESIZE * 1;  // B
     int y = SQUARESIZE * 2;  // 6
