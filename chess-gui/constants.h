@@ -3,7 +3,8 @@
 const int BOARDSIZE = 480;
 const int NUMPIECES = 32;
 const int SQUARESIZE = BOARDSIZE / 8;
-// const int PIECESIZE = SQUARESIZE - 10;
+
+const int OUTOFBOUNDS = -100;
 
 const int INITPOS[8][8] = {
     // Black pieces

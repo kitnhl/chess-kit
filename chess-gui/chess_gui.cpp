@@ -45,7 +45,7 @@ void movePiece(int index, string notation)
     {
         if (pieces[j].getPosition() == newCoord)
         {
-            pieces[j].setPosition(-100, -100);
+            pieces[j].setPosition(OUTOFBOUNDS, OUTOFBOUNDS);
             break;
         }
     }
@@ -68,6 +68,10 @@ void movePiece(int index, string notation)
 
 sf::Vector2f toCoord(string squareName)
 {
+    if (squareName.length() < 2)
+    {
+        return sf::Vector2f(OUTOFBOUNDS, OUTOFBOUNDS);
+    }
     int x = static_cast<int>(squareName[0] - 'a');
     int y = 7 - static_cast<int>(squareName[1] - '1');
     return sf::Vector2f(x * SQUARESIZE, y * SQUARESIZE);
