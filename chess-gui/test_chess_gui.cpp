@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
+#include "../constants.h"
 #include "chess_gui.h"
-#include "constants.h"
+#include <gtest/gtest.h>
 
 int findPieceAtPosition(string squareName);
 

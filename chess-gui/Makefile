@@ -28,7 +28,9 @@ TARGET = chess_gui
 TEST_TARGET = test_chess_gui
 
 # Source files
-SOURCES = main.cpp chess_gui.cpp
+SOURCES = main.cpp chess_gui.cpp ../chess-engine/position.cpp ../chess-engine/pieces/piece.cpp \
+			../chess-engine/pieces/bishop.cpp ../chess-engine/pieces/king.cpp ../chess-engine/pieces/knight.cpp \
+			../chess-engine/pieces/pawn.cpp ../chess-engine/pieces/queen.cpp ../chess-engine/pieces/rook.cpp
 
 # Test files
 TEST_SOURCES = test_chess_gui.cpp chess_gui.cpp

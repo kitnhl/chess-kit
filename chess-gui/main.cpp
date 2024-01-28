@@ -1,11 +1,14 @@
+#include "../chess-engine/position.h"
+#include "../constants.h"
 #include "chess_gui.h"
-#include "constants.h"
 #include <iostream>
 
 using namespace std;
 
 int main()
 {
+    Position pos = Position();
+    
     sf::RenderWindow window(sf::VideoMode(480, 480), "Chess Kit");
 
     sf::Texture t1, t2;
@@ -80,13 +83,27 @@ int main()
                     
                     string previousMove = notation;
                     notation = toSquareName(oldCoord) + toSquareName(newCoord);
-                    if (notation != previousMove && oldCoord != newCoord)
+                    
+                    // Only allow legal moves
+                    if (pos.generatePawnMoves().find(notation) != string::npos)
                     {
+                        pos.playMove(notation);
+                        movePiece(active, notation);
                         scoreSheet += notation + " ";
                         cout << notation << endl;
                     }
+                    else
+                    {
+                        pieces[active].setPosition(oldCoord);
+                    }
 
-                    movePiece(active, notation);
+                    // if (notation != previousMove && oldCoord != newCoord)
+                    // {
+                    //     scoreSheet += notation + " ";
+                    //     cout << notation << endl;
+                    // }
+
+                    // movePiece(active, notation);
                 }
             }
         }
