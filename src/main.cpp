@@ -83,14 +83,14 @@ int main()
                     
                     string previousMove = notation;
                     notation = toSquareName(oldCoord) + toSquareName(newCoord);
-                    
+
                     // Only allow legal moves
                     if (pos.generatePawnMoves().find(notation) != string::npos)
                     {
                         pos.playMove(notation);
                         movePiece(active, notation);
                         scoreSheet += notation + " ";
-                        cout << notation << endl;
+                        cout << notation + " " + to_string(pos.evaluate()) << endl;
                     }
                     else
                     {

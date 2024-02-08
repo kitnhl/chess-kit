@@ -1,19 +1,21 @@
 #include "../../include/pieces/queen.hpp"
 
-Queen::Queen(PieceColor color) : Piece(color) 
+Queen::Queen(PieceColor color) : Piece(color, QUEEN) 
 {
-    this->color = color;
-    if (color == WHITE) {
+    if (color == WHITE) 
+    {
         // Set the first row bit for the white queen
         setBit(3);  // d1
-    } else {
+    } 
+    else 
+    {
         // Set the last row bit for the black queen
         setBit(59);  // d8
     }
 }
 
 // Queen::Queen(PieceColor color) : Bitboard(color) {
-//     this->pieceType = QUEEN;
+//     this->pieceType = QUEEN_SPRITE;
 //     this->pieceTypeString = "Queen";
 //     this->pieceValue = 900;
 //     this->pieceWeight = 9;

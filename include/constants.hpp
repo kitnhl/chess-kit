@@ -12,6 +12,7 @@ const int NUMCOLS = 8;
 const int NUMPIECES = 32;
 const int NUMPIECETYPES = 6;
 const int NUMROWS = NUMCOLS;
+const int NUMSQUARES = NUMROWS * NUMCOLS;
 const int OUTOFBOUNDS = -100;
 const int SQUARESIZE = BOARDSIZE / NUMROWS;
 
@@ -45,14 +46,36 @@ enum PieceColor {
     WHITE = 1
 };
 
-enum PieceType {
-    QUEEN = 0,
-    KING = 1,
-    ROOK = 2,
-    KNIGHT = 3,
-    BISHOP = 4,
-    PAWN = 5
+enum PieceSpriteType {
+    QUEEN_SPRITE = 0,
+    KING_SPRITE = 1,
+    ROOK_SPRITE = 2,
+    KNIGHT_SPRITE = 3,
+    BISHOP_SPRITE = 4,
+    PAWN_SPRITE = 5
 };
+
+enum PieceType {
+    PAWN = 0,
+    KNIGHT = 1,
+    BISHOP = 2,
+    ROOK = 3,
+    QUEEN = 4,
+    KING = 5
+};
+
+const int PIECE_VALUES[] {
+    100,   // Pawn
+    320,   // Knight
+    330,   // Bishop
+    500,   // Rook
+    900,   // Queen
+    20000  // King
+};
+
+inline int colorMultiplier(PieceColor color) {
+    return color == WHITE ? 1 : -1;
+}
 
 inline bool getBit(Bitboard bitboard, int index) {
     return (bitboard & (1ULL << index)) != 0;
@@ -69,11 +92,10 @@ inline PieceColor getPieceColor(int boardValue) {
     return boardValue > 0 ? WHITE : BLACK;
 }
 
-inline int getPieceIndex(PieceColor color, PieceType type) {
-    return type * 2 + color;
-}
+// inline int getPieceIndex(PieceColor color, PieceType type) {
+//     return type * 2 + color;
+// }
 
-inline PieceType getPieceType(int boardValue) {
-    return static_cast<PieceType>(abs(boardValue) - 1);
+inline PieceSpriteType getPieceSpriteType(int boardValue) {
+    return static_cast<PieceSpriteType>(abs(boardValue) - 1);
 }
-

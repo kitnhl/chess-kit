@@ -13,24 +13,43 @@
 using namespace std;
 
 Position::Position() :
-    queens {Queen(BLACK), Queen(WHITE)},
-    kings {King(BLACK), King(WHITE)},
-    rooks {Rook(BLACK), Rook(WHITE)},
+    pawns {Pawn(BLACK), Pawn(WHITE)},
     knights {Knight(BLACK), Knight(WHITE)},
     bishops {Bishop(BLACK), Bishop(WHITE)},
-    pawns {Pawn(BLACK), Pawn(WHITE)},
+    rooks {Rook(BLACK), Rook(WHITE)},
+    queens {Queen(BLACK), Queen(WHITE)},
+    kings {King(BLACK), King(WHITE)},
     pieces {
-        &queens[BLACK], &queens[WHITE],
-        &kings[BLACK], &kings[WHITE],
-        &rooks[BLACK], &rooks[WHITE],
+        &pawns[BLACK], &pawns[WHITE],
         &knights[BLACK], &knights[WHITE],
         &bishops[BLACK], &bishops[WHITE],
-        &pawns[BLACK], &pawns[WHITE]
+        &rooks[BLACK], &rooks[WHITE],
+        &queens[BLACK], &queens[WHITE],
+        &kings[BLACK], &kings[WHITE]
     },
     turn(WHITE) 
     {
     // Any additional initialization goes here
     }
+
+int Position::evaluate() {
+    int eval = 0;
+
+    for (int i = 0; i < NUMPIECETYPES * 2; i++) {
+        int pieceValue = pieces[i]->getValue();
+        int *pieceSquareTable = pieces[i]->getPieceSquareTable();
+
+        for (int j = 0; j < NUMSQUARES; j++) 
+        {
+            if (pieces[i]->getBit(j)) 
+            {
+                eval += pieceValue + pieceSquareTable[j];
+            }
+        }
+    }
+
+    return eval;
+}
 
 string Position::generatePawnMoves() {
     string moves;
@@ -44,7 +63,8 @@ string Position::generatePawnMoves() {
     //     occupancy |= *(&(pawns[0].getBitboard()) + i);
     // }
 
-    if (turn == WHITE) {
+    if (turn == WHITE) 
+    {
         // Generate white pawn moves
         Bitboard singlePush = pawns[WHITE].getBitboard() << NUMCOLS;
         singlePush ^= singlePush & occupancy;
@@ -53,11 +73,11 @@ string Position::generatePawnMoves() {
         doublePush ^= doublePush & occupancy;
 
         // Ensure that the double push is not jumping over a piece
-        doublePush = doublePush >> 8;
+        doublePush = doublePush >> NUMCOLS;
         doublePush &= singlePush;
-        doublePush = doublePush << 8;
+        doublePush = doublePush << NUMCOLS;
 
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < NUMSQUARES; i++) {
             if (getBit(singlePush, i)) {
                 moves += string(SQUARE_NAMES[i - NUMCOLS]) + string(SQUARE_NAMES[i]) + " ";
             }
@@ -65,7 +85,9 @@ string Position::generatePawnMoves() {
                 moves += string(SQUARE_NAMES[i - NUMCOLS * 2]) + string(SQUARE_NAMES[i]) + " ";
             }
         }
-    } else {
+    } 
+    else 
+    {
         // Generate black pawn moves
         Bitboard singlePush = pawns[BLACK].getBitboard() >> NUMCOLS;
         singlePush ^= singlePush & occupancy;
@@ -74,15 +96,17 @@ string Position::generatePawnMoves() {
         doublePush ^= doublePush & occupancy;
         
         // Ensure that the double push is not jumping over a piece
-        doublePush = doublePush << 8;
+        doublePush = doublePush << NUMCOLS;
         doublePush &= singlePush;
-        doublePush = doublePush >> 8;
+        doublePush = doublePush >> NUMCOLS;
 
-        for (int i = 0; i < 64; i++) {
-            if (getBit(singlePush, i)) {
+        for (int i = 0; i < NUMSQUARES; i++) {
+            if (getBit(singlePush, i)) 
+            {
                 moves += string(SQUARE_NAMES[i + NUMCOLS]) + string(SQUARE_NAMES[i]) + " ";
             }
-            if (getBit(doublePush, i)) {
+            if (getBit(doublePush, i)) 
+            {
                 moves += string(SQUARE_NAMES[i + NUMCOLS * 2]) + string(SQUARE_NAMES[i]) + " ";
             }
         }

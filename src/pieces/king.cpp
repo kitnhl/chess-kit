@@ -1,19 +1,21 @@
 #include "../../include/pieces/king.hpp"
 
-King::King(PieceColor color) : Piece(color) 
+King::King(PieceColor color) : Piece(color, KING) 
 {
-    this->color = color;
-    if (color == WHITE) {
+    if (color == WHITE) 
+    {
         // Set the first row bit for the white king
         setBit(4);  // e1
-    } else {
+    } 
+    else 
+    {
         // Set the last row bit for the black king
         setBit(60);  // e8
     }
 }
 
 // King::King(PieceColor color) : Piece(color) {
-//     this->pieceType = PieceType::KING;
+//     this->pieceType = PieceSpriteType::KING_SPRITE;
 //     this->pieceTypeString = "King";
 //     this->pieceChar = 'K';
 //     this->bitboardChar = 'K';

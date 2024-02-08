@@ -1,13 +1,15 @@
 #include "../../include/pieces/bishop.hpp"
 
-Bishop::Bishop(PieceColor color) : Piece(color) 
+Bishop::Bishop(PieceColor color) : Piece(color, BISHOP) 
 {
-    this->color = color;
-    if (color == WHITE) {
+    if (color == WHITE) 
+    {
         // Set the first row bits for the white bishops
         setBit(2);  // c1
         setBit(5);  // f1
-    } else {
+    } 
+    else 
+    {
         // Set the last row bits for the black bishops
         setBit(58);  // c8
         setBit(61);  // f8
@@ -15,7 +17,7 @@ Bishop::Bishop(PieceColor color) : Piece(color)
 }
 
 // Bishop::Bishop(PieceColor color) : Piece(color) {
-//     this->pieceType = PieceType::BISHOP;
+//     this->pieceType = PieceSpriteType::BISHOP_SPRITE;
 //     this->pieceTypeString = "Bishop";
 //     this->pieceValue = 3;
 //     this->pieceWeight = 300;

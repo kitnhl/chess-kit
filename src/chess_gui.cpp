@@ -20,7 +20,7 @@ void loadBoard(string scoreSheet)
             }
 
             int n = INITPOS[i][j];
-            PieceType x = getPieceType(n);
+            PieceSpriteType x = getPieceSpriteType(n);
             PieceColor y = getPieceColor(n);
             pieces[k].setTextureRect(sf::IntRect(SQUARESIZE * static_cast<int>(x), SQUARESIZE * static_cast<int>(y), 
                                                  SQUARESIZE, SQUARESIZE));
