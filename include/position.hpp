@@ -23,11 +23,15 @@ private:
     Piece* pieces[12];
     PieceColor turn;  
 
+    int _negamax(int depth, int alpha, int beta);
+
 public:
     Position();
+    Position(const Position& other);
 
     // Add methods to manipulate and query the position here
     int evaluate();
+    string findBestMove();
     string generatePawnMoves();
     void playMove(string notation);
 };

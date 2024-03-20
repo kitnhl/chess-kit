@@ -8,6 +8,8 @@ using namespace std;
 typedef uint64_t Bitboard;
 
 const int BOARDSIZE = 480;
+const int MAXSEARCHDEPTH = 3;
+const int NOTATIONLENGTH = 4;
 const int NUMCOLS = 8;
 const int NUMPIECES = 32;
 const int NUMPIECETYPES = 6;

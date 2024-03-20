@@ -91,6 +91,17 @@ int main()
                         movePiece(active, notation);
                         scoreSheet += notation + " ";
                         cout << notation + " " + to_string(pos.evaluate()) << endl;
+                        
+                        string replyNotation = pos.findBestMove();
+                        if (replyNotation == "")
+                        {
+                            cout << "Stalemate" << endl;
+                            break;
+                        }
+                        pos.playMove(replyNotation);
+                        movePiece(findPieceSpriteAtPosition(replyNotation.substr(0, 2)) ,replyNotation);
+                        scoreSheet += replyNotation + " ";
+                        cout << replyNotation + " " + to_string(pos.evaluate()) << endl;
                     }
                     else
                     {

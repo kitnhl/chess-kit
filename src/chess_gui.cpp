@@ -66,6 +66,18 @@ void movePiece(int index, string notation)
     }
 }
 
+int findPieceSpriteAtPosition(string squareName) {
+    auto coord = toCoord(squareName);
+    for (int i = 0; i < 32; i++) {
+        if (pieces[i].getPosition().x == coord.x && pieces[i].getPosition().y == coord.y) 
+        {
+            return i;
+        }
+    }
+
+    return INT_MAX;
+}
+
 sf::Vector2f toCoord(string squareName)
 {
     if (squareName.length() < 2)

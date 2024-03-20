@@ -32,7 +32,28 @@ Position::Position() :
     // Any additional initialization goes here
     }
 
-int Position::evaluate() {
+Position::Position(const Position& other) :
+    pawns {other.pawns[BLACK], other.pawns[WHITE]},
+    knights {other.knights[BLACK], other.knights[WHITE]},
+    bishops {other.bishops[BLACK], other.bishops[WHITE]},
+    rooks {other.rooks[BLACK], other.rooks[WHITE]},
+    queens {other.queens[BLACK], other.queens[WHITE]},
+    kings {other.kings[BLACK], other.kings[WHITE]},
+    pieces {
+        &pawns[BLACK], &pawns[WHITE],
+        &knights[BLACK], &knights[WHITE],
+        &bishops[BLACK], &bishops[WHITE],
+        &rooks[BLACK], &rooks[WHITE],
+        &queens[BLACK], &queens[WHITE],
+        &kings[BLACK], &kings[WHITE]
+    },
+    turn(other.turn) 
+    {
+    // Any additional initialization goes here
+    }
+
+int Position::evaluate() 
+{
     int eval = 0;
 
     for (int i = 0; i < NUMPIECETYPES * 2; i++) {
@@ -51,7 +72,33 @@ int Position::evaluate() {
     return eval;
 }
 
-string Position::generatePawnMoves() {
+string Position::findBestMove()
+{
+    int maxEval = INT_MIN, alpha = INT_MIN, beta = INT_MAX;
+    string moves = generatePawnMoves();
+    string bestMove = moves.length() ? moves.substr(0, NOTATIONLENGTH) : "";
+    for (size_t i = 0; i < moves.length(); i += NOTATIONLENGTH + 1) 
+    {
+        std::unique_ptr<Position> childPos(new Position(*this));
+        childPos->playMove(moves.substr(i, NOTATIONLENGTH));
+        int childEval = -childPos->_negamax(MAXSEARCHDEPTH - 1, -beta, -alpha);
+        if (childEval > maxEval) 
+        {
+            maxEval = childEval;
+            bestMove = moves.substr(i, NOTATIONLENGTH);
+        }
+        alpha = max(alpha, maxEval);
+        if (alpha >= beta) 
+        {
+            break;
+        }
+    }
+
+    return bestMove;
+}
+
+string Position::generatePawnMoves()
+{
     string moves;
 
     Bitboard occupancy = pawns[BLACK].getBitboard() | pawns[WHITE].getBitboard();
@@ -115,7 +162,8 @@ string Position::generatePawnMoves() {
     return moves;
 }
 
-void Position::playMove(string notation) {
+void Position::playMove(string notation) 
+{
     for (int i = 0; i < NUMPIECETYPES * 2; i++) {
         // Move desired piece
         if (pieces[i]->getBit(notation.substr(0, 2))) 
@@ -131,4 +179,29 @@ void Position::playMove(string notation) {
     }
 
     turn = (turn == WHITE) ? BLACK : WHITE;
+}
+
+int Position::_negamax(int depth, int alpha, int beta) 
+{
+    if (depth == 0) 
+    {
+        return evaluate() * colorMultiplier(turn);
+    }
+
+    int maxEval = INT_MIN;
+    string moves = generatePawnMoves();
+    for (size_t i = 0; i < moves.length(); i += NOTATIONLENGTH + 1) 
+    {
+        std::unique_ptr<Position> childPos(new Position(*this));
+        childPos->playMove(moves.substr(i, NOTATIONLENGTH));
+
+        maxEval = max(maxEval, -childPos->_negamax(depth - 1, -beta, -alpha));
+        alpha = max(alpha, maxEval);
+        if (alpha >= beta) 
+        {
+            break;
+        }
+    }
+
+    return maxEval;
 }

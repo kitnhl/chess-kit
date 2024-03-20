@@ -2,8 +2,6 @@
 #include "../include/chess_gui.hpp"
 #include <gtest/gtest.h>
 
-int findPieceSpriteAtPosition(string squareName);
-
 TEST(LoadInitPosTest, WhiteQueenOnD1) {
     loadBoard("");
     int i = findPieceSpriteAtPosition("d1");
@@ -160,16 +158,4 @@ TEST(LoadGamePosTest, SicilianDefense) {
 
     i = findPieceSpriteAtPosition("c5");
     ASSERT_EQ(i, INT_MAX);
-}
-
-int findPieceSpriteAtPosition(string squareName) {
-    auto coord = toCoord(squareName);
-    for (int i = 0; i < 32; i++) {
-        if (pieces[i].getPosition().x == coord.x && pieces[i].getPosition().y == coord.y) 
-        {
-            return i;
-        }
-    }
-
-    return INT_MAX;
 }
